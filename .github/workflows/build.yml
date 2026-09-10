@@ -1,0 +1,88 @@
+name: Build and deploy
+
+# Called by an artist's repo:
+#   jobs:
+#     deploy:
+#       uses: chranditho/artist-portfolio-template/.github/workflows/build.yml@v1
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      # Pages is a repository setting, so it cannot ship in the template and no
+      # workflow can switch it on: GITHUB_TOKEN has no `administration` scope.
+      # Without this step configure-pages dies with "Get Pages site failed",
+      # which tells the artist nothing.
+      - name: Check Pages is turned on
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh api "repos/$GITHUB_REPOSITORY/pages" >/dev/null 2>&1; then
+            echo "::error title=GitHub Pages is not turned on yet::\
+          Open Settings > Pages, set 'Source' to 'GitHub Actions', then re-run \
+          this workflow from the Actions tab. Only the repository owner can do \
+          this. Everything else is already set up."
+            exit 1
+          fi
+
+      # The artist's repository: their content and their design.
+      - uses: actions/checkout@v7
+
+      # The machinery. Pinned to a literal tag, never github.ref — otherwise a
+      # caller pinned to @v1 would silently run main's generator.
+      - name: Check out the build machinery
+        uses: actions/checkout@v7
+        with:
+          repository: chranditho/artist-portfolio-template
+          ref: v1
+          path: .machinery
+
+      - uses: jdx/mise-action@v4
+
+      # The artist's design deps, then the generator's. Keeping them separate is
+      # what lets an artist's package.json carry only what their design needs.
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
+        working-directory: .machinery
+
+      - id: pages
+        uses: actions/configure-pages@v6
+
+      # Derivative filenames carry a hash of their source bytes, so a cached
+      # file is current by construction. The restore-keys prefix matters: any
+      # content change misses the exact key, and without a prefix fallback the
+      # run would re-encode every image instead of just the changed ones.
+      - uses: actions/cache@v6
+        with:
+          path: public/_web
+          key: avif-${{ hashFiles('content/**') }}
+          restore-keys: avif-
+
+      # The generator writes absolute image URLs into the MDX, and Next does not
+      # rewrite those the way it does its own assets — so it needs the same base
+      # path, or every image 404s on a project site.
+      - run: node .machinery/scripts/sync-projects/index.mjs
+        env:
+          PUBLIC_BASE: ${{ steps.pages.outputs.base_path }}
+
+      - run: pnpm build
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: out
+
+      - id: deploy
+        uses: actions/deploy-pages@v5

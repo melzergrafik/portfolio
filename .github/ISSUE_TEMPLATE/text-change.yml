@@ -1,0 +1,21 @@
+name: Change some text
+description: A title, a description, your bio — anything worded wrong.
+labels: [text]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Which page?
+      description: Paste the address from your browser.
+      placeholder: https://yourname.github.io/projects/blue-hour/
+    validations: { required: true }
+  - type: textarea
+    id: current
+    attributes:
+      label: What does it say now?
+    validations: { required: true }
+  - type: textarea
+    id: wanted
+    attributes:
+      label: What should it say instead?
+    validations: { required: true }

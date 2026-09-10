@@ -1,0 +1,22 @@
+name: Something looks wrong
+description: An image will not load, the layout is broken, a link is dead.
+labels: [bug]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Which page?
+      placeholder: https://yourname.github.io/projects/blue-hour/
+    validations: { required: true }
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong?
+      description: A screenshot helps more than a description — drag one in.
+    validations: { required: true }
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where did you see it?
+      options: [On my phone, On a computer, Both]
+    validations: { required: true }

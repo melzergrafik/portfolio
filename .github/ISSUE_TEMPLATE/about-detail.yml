@@ -1,0 +1,14 @@
+name: About-page detail
+description: Your bio, portrait, contact links or exhibition details.
+labels: [about]
+body:
+  - type: textarea
+    id: change
+    attributes:
+      label: What should change on the about page?
+    validations: { required: true }
+  - type: markdown
+    attributes:
+      value: >
+        You can also just edit `content/_about/info.md` yourself — it is the
+        only file the about page is built from.
