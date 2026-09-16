@@ -72,10 +72,10 @@ export default async function Page({
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <h1 className="text-3xl sm:text-5xl font-bold tracking-tighter">
+      <h1 className="text-3xl sm:text-5xl tracking-tighter">
         {metadata.title}
       </h1>
-      <p className="mt-2 text-neutral-500 tabular-nums">
+      <p className="mt-2 text-muted tabular-nums">
         {[metadata.year, metadata.medium, metadata.location]
           .filter(Boolean)
           .join(' · ')}

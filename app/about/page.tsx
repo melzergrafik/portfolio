@@ -19,7 +19,7 @@ export default function Page() {
           width={metadata.portraitWidth}
           height={metadata.portraitHeight}
           decoding="async"
-          className="mb-8 w-full max-w-sm h-auto bg-neutral-100 bg-cover bg-center"
+          className="mb-8 w-full max-w-sm h-auto bg-tertiary bg-cover bg-center"
           style={{
             backgroundImage: metadata.portraitBlur
               ? `url(${metadata.portraitBlur})`
@@ -27,22 +27,22 @@ export default function Page() {
           }}
         />
       ) : null}
-      <h1 className="text-3xl sm:text-5xl font-bold tracking-tighter">
+      <h1 className="text-3xl sm:text-5xl tracking-tighter">
         {metadata.name}
       </h1>
       {metadata.tagline ? (
-        <p className="mt-2 text-lg text-neutral-700">{metadata.tagline}</p>
+        <p className="mt-2 text-lg text-muted">{metadata.tagline}</p>
       ) : null}
       <article className="prose mt-6">
         <MDXRemote source={content} />
       </article>
       {socials.length > 0 ? (
-        <ul className="mt-8 flex flex-wrap gap-x-4 text-sm font-medium text-neutral-500">
+        <ul className="mt-8 flex flex-wrap gap-x-4 text-sm text-muted">
           {socials.map((s) => (
             <li key={s.href}>
               <a
                 href={s.href}
-                className="underline decoration-neutral-400 underline-offset-2"
+                className="underline decoration-secondary underline-offset-2 transition-colors hover:text-secondary"
                 target={s.href.startsWith('http') ? '_blank' : undefined}
                 rel={
                   s.href.startsWith('http') ? 'noopener noreferrer' : undefined

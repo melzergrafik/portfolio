@@ -16,7 +16,7 @@ export function ProjectsList() {
           >
             {thumb ? (
               <div
-                className="relative aspect-[3/2] w-full overflow-hidden bg-neutral-100 bg-cover bg-center"
+                className="relative aspect-[3/2] w-full overflow-hidden bg-tertiary bg-cover bg-center"
                 style={{
                   backgroundImage: thumb.blurDataURL
                     ? `url(${thumb.blurDataURL})`
@@ -36,13 +36,13 @@ export function ProjectsList() {
                 />
               </div>
             ) : (
-              <div className="aspect-[3/2] w-full bg-neutral-100" />
+              <div className="aspect-[3/2] w-full bg-tertiary" />
             )}
             <div className="mt-4 flex flex-col md:flex-row md:items-baseline md:space-x-2">
-              <p className="text-neutral-500 text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-medium tabular-nums">
+              <p className="font-display text-muted text-2xl lg:text-4xl xl:text-5xl font-medium tabular-nums">
                 {project.metadata.year}
               </p>
-              <p className="text-neutral-900 text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold tracking-tight">
+              <p className="font-display text-primary text-2xl lg:text-4xl xl:text-5xl font-medium tracking-tight">
                 {project.metadata.title}
               </p>
             </div>

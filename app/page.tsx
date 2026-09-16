@@ -6,11 +6,11 @@ export default function Page() {
 
   return (
     <section>
-      <h1 className="mb-4 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tighter">
+      <h1 className="mb-4 text-4xl sm:text-5xl lg:text-6xl tracking-tighter">
         {name}
       </h1>
       {tagline ? (
-        <p className="mb-8 text-lg text-neutral-700 max-w-2xl">{tagline}</p>
+        <p className="mb-8 text-lg text-muted max-w-2xl">{tagline}</p>
       ) : null}
       <div className="my-8">
         <ProjectsList />

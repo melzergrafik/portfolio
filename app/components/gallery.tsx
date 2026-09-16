@@ -51,7 +51,7 @@ export function Gallery({ images, fallbackAlt = '' }: GalleryProps) {
             aria-label={`Open image ${idx + 1}`}
           >
             <div
-              className="w-full bg-neutral-100 bg-cover bg-center"
+              className="w-full bg-tertiary bg-cover bg-center"
               style={{
                 backgroundImage: img.blurDataURL
                   ? `url(${img.blurDataURL})`
